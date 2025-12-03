@@ -1,11 +1,9 @@
 version: '3.8'
 
 services:
+  # Aplicación principal usando la imagen publicada
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: cicd-demo-app:latest
+    image: ghcr.io/chrisd04/ejercicios-con-acciones-de-github-ejercicio-docker:latest
     container_name: cicd-app
     restart: unless-stopped
     environment:
@@ -13,10 +11,9 @@ services:
     networks:
       - app-network
 
+  # Servicio de test (opcional, usando perfil 'test')
   test:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/chrisd04/ejercicios-con-acciones-de-github-ejercicio-docker:latest
     container_name: cicd-test
     command: npm test
     environment:
