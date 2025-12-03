@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cicd-demo-app:latest
+    container_name: cicd-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cicd-test
+    command: npm test
+    environment:
+      - NODE_ENV=test
+    networks:
+      - app-network
+    depends_on:
+      - app
+    profiles:
+      - test
+
+networks:
+  app-network:
+    driver: bridge
